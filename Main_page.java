@@ -26,17 +26,23 @@ import javafx.scene.text.Text;
 import javafx.scene.control.TextField; 
 import javafx.stage.Stage;
 import javafx.scene.control.*; 
-
+import javafx.scene.input.MouseEvent;
 
 public class Main_page extends Application {
-    
+	int row , col;
+	Game_page2 game;
+	Settings_page s;
+    int num_players;
+    static Main_page m ;
     @Override
     public void start(Stage primaryStage) {
         primaryStage.setTitle("Chain Reaction");	
         Text playernum = new Text("Number of Players : ");
         ChoiceBox playerchoiceBox = new ChoiceBox();
         playerchoiceBox.getItems().addAll(2,3,4,5,6,7,8);
+        
         playerchoiceBox.getSelectionModel().select(0);
+        System.out.println(playerchoiceBox.getValue());
         Text Gridsize = new Text("Size of the grid: ");
         ToggleGroup groupGrid = new ToggleGroup();
         RadioButton _9X6 = new RadioButton("9X6");
@@ -47,8 +53,43 @@ public class Main_page extends Application {
         Text chainrxn = new Text("CHAIN REACTION");
         chainrxn.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 40));
         Button start=new Button("START");
+        start.setOnMouseClicked(new EventHandler<MouseEvent>(){
+        	public void handle (MouseEvent event)
+        	{
+        		int n = (int) playerchoiceBox.getValue();
+        		RadioButton temp = (RadioButton) groupGrid.getSelectedToggle();
+        		String s = temp.getText();
+        		if(s.equals("9X6"))
+        		{
+        			row = 9;
+        			col = 6;
+        		}
+        		else
+        		{
+        			row = 15;
+        			col = 10;
+        		}
+        		System.out.println(row + " " + col + " " + n);
+        		game = new Game_page2(row , col , n);
+        		game.start(primaryStage);
+        	//	Game_page g = new Game_page(n , this.row , this.col);
+        	}
+        });
         Button resume=new Button("RESUME");
+        resume.setOnMouseClicked(new EventHandler<MouseEvent>(){
+        	public void handle (MouseEvent event)
+        	{
+        		System.out.println(-1);
+        	}
+        });
         Button settings=new Button("SETTINGS");
+        settings.setOnMouseClicked(new EventHandler<MouseEvent>(){
+        	public void handle (MouseEvent event)
+        	{
+        		Settings_page s = new Settings_page(m);
+        		s.start(primaryStage);
+        	}
+        });
         GridPane root = new GridPane(); 
         root.setPadding(new Insets(30, 30, 30, 30));
         root.setVgap(5); 
@@ -63,15 +104,16 @@ public class Main_page extends Application {
         root.add(resume,2,3);
         root.add(settings,1,4);
         root.setAlignment(Pos.CENTER);
-        Scene scene = new Scene(root);
-        
+        Scene scene = new Scene(root,1000,1000);
         
         primaryStage.setScene(scene);
+        primaryStage.setResizable(true);
         primaryStage.show();
     }
 
    
     public static void main(String[] args) {
+    	m = new Main_page();
         launch(args);
     }
     
