@@ -35,7 +35,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button; 
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.PasswordField; 
-import javafx.scene.layout.GridPane; 
+import javafx.scene.layout.*; 
 import javafx.scene.text.Text; 
 import javafx.scene.control.TextField; 
 import javafx.stage.Stage;
@@ -123,64 +123,45 @@ public class Game_page2 extends Application {
         Rectangle[][] box=new Rectangle[50][50];
         Sphere[] sphere =new Sphere[500];
         GridPane root = new GridPane(); 
+       
         root.setPadding(new Insets(10, 10, 10, 10));
         root.setVgap(0); 
         root.setHgap(0);
+        GridPane[][] stack=new GridPane[50][50];
         int k=0;
         int t=0;
         TranslateTransition translateTransition[] = new TranslateTransition[500];
+       
         root.setBlendMode(BlendMode.MULTIPLY);
         for (int i=0;i<this.row ;i++ ) {
             for (int j=0; j<this.col;j++ ) {
-               /* translateTransition[t]=new TranslateTransition();
-                translateTransition[t].setDuration(Duration.millis(400));
-                translateTransition[t+1]=new TranslateTransition();
-                translateTransition[t+1].setDuration(Duration.millis(400)); 
-                */box[i][j] = new Rectangle(i,j,40,40); 
+              
+                box[i][j] = new Rectangle(i,j,40,40);     
                 box[i][j].setStroke(Color.BLACK);
                 box[i][j].setStrokeWidth(2);
                 box[i][j].setFill(Color.TRANSPARENT);
+                stack[i][j]=new GridPane();
+                stack[i][j].setPadding(new Insets(10, 10, 10, 10));
               root.add(box[i][j],j,i);   
-         /*    GridPane root1 = new GridPane(); 
-        root1.setPadding(new Insets(10, 10, 10, 10));
-        root1.setVgap(0); 
-        root1.setHgap(0);
-        sphere[k]=new Sphere(8);
-        sphere[k+1]=new Sphere(7);
-        //sphere[k+2]=new Sphere(6);
-       translateTransition[t].setNode(sphere[k]);
-        translateTransition[t].setByX(-2);
-        translateTransition[t].setByY(2); 
-        translateTransition[t].setCycleCount(Timeline.INDEFINITE);
-      translateTransition[t].setAutoReverse(true); 
-       translateTransition[t].play();
-       translateTransition[t+1].setNode(sphere[k+1]);
-        translateTransition[t+1].setByX(2);
-        translateTransition[t+1].setByY(-2); 
-        translateTransition[t+1].setCycleCount(Timeline.INDEFINITE);
-      translateTransition[t+1].setAutoReverse(true); 
-       translateTransition[t+1].play();
-       
-        root1.add(sphere[k],0,0);
-        root1.add(sphere[k+1],1,0);
-        //root1.add(sphere[k+2],0,1);
-        root.add(root1,j+1,i+1);
-        k=k+2;
-        t=t+2;
-*/    }
+        
+ }
         }
         System.out.println(ar[0][0].player);
          for (int i=0;i<this.row ;i++ ) {
             for (int j=0; j<this.col;j++ ) {
                 System.out.println(-1);
                 System.out.println(this.player_numbers);
-                box[i][j].addEventFilter(MouseEvent.MOUSE_CLICKED, new HelloEvent(this));    
+                stack[i][j].addEventFilter(MouseEvent.MOUSE_CLICKED, new HelloEvent(this,stack[i][j])); 
+                root.add(stack[i][j],j,i);   
+                root.setRowSpan(stack[i][j],2);
+                root.setColumnSpan(stack[i][j],2);
              }
         }
         
         Button mainpage=new Button("BACK");
         Button redo=new Button("UNDO");
         Button restart=new Button("RESTART");
+
         root.add(mainpage,20,20);
         root.add(redo,21,20);
         root.add(restart,22,20);
@@ -208,13 +189,62 @@ public class Game_page2 extends Application {
     }
 } 
 class HelloEvent implements EventHandler <MouseEvent> {  
-
+    GridPane r;
     Game_page2 g;
-    HelloEvent(Game_page2 g)
+   
+    HelloEvent(Game_page2 g,GridPane st)
     {
         this.g = g;
+        this.r=st;
+        
         System.out.println(g.ar[0][0]);
     }
+    public void insertball(int i,int j){
+     if (i==0 && j==0 || i==0 && j==g.col-1||i==g.row-1 && j==0||i==g.row-1 && j==g.col-1) {
+         
+     
+     if (g.ar[i][j].currentsize==1) {
+        Sphere s1=new Sphere(7);
+        TranslateTransition translateTransition1=new TranslateTransition();
+        translateTransition1.setDuration(Duration.millis(100)); 
+        translateTransition1.setNode(s1);
+        translateTransition1.setByX(5);
+        translateTransition1.setCycleCount(Timeline.INDEFINITE);
+        translateTransition1.setAutoReverse(true); 
+        translateTransition1.play();   
+        r.add(s1,0,0);
+        
+     }
+}
+else if (i==0 || i==g.row-1 || j==0 || j==g.col-1) {
+    TranslateTransition translateTransition1=new TranslateTransition();
+    TranslateTransition translateTransition2=new TranslateTransition();
+    Sphere s1=null;
+    Sphere s2=null;
+    if (g.ar[i][j].currentsize==1) {
+        s1=new Sphere(7);
+        translateTransition1.setDuration(Duration.millis(500)); 
+        translateTransition1.setNode(s1);
+        translateTransition1.setByX(5);
+        translateTransition1.setCycleCount(Timeline.INDEFINITE);
+        translateTransition1.setAutoReverse(true); 
+        translateTransition1.play();   
+        r.add(s1,0,0);
+        
+     }
+     else if (g.ar[i][j].currentsize==2) {
+        s2=new Sphere(7);
+        translateTransition2.setDuration(Duration.millis(100)); 
+        translateTransition2.setNode(s1);
+        translateTransition2.setByX(15);
+        translateTransition2.setCycleCount(Timeline.INDEFINITE);
+        translateTransition2.setAutoReverse(true); 
+        translateTransition2.play();   
+        r.add(s2,1,0);
+     }
+}
+    }
+
     public void insert(int i,int j)
     {
         int temp;
@@ -233,12 +263,14 @@ class HelloEvent implements EventHandler <MouseEvent> {
             g.ar[i][j].player = temp;
             g.ar[i][j].color = g.color[temp-1];
             g.ar[i][j].currentsize+=1;
+            insertball(i,j);
         }
         else if(g.ar[i][j].player==temp)
         {
             //System.out.println(-1);
             g.count+=1;
             g.ar[i][j].currentsize+=1;
+            insertball(i,j);
             if(g.ar[i][j].currentsize >= g.ar[i][j].maxsize)
             {
                 func(i,j,g.ar[i][j].color,temp);
@@ -309,7 +341,7 @@ class HelloEvent implements EventHandler <MouseEvent> {
             }
             else if(s.equals("f"))
             {
-                if(i==0)
+                if(i==0 || i==g.row-1 || j==0 || j==g.col-1)
                 {
                     g.ar[i+1][j].currentsize+=1;
                     g.ar[i+1][j].color=color;
@@ -324,7 +356,7 @@ class HelloEvent implements EventHandler <MouseEvent> {
                     func(i,j-1,color,player_no);
                     func(i,j+1,color,player_no);    
                 }
-                else if(i==g.row-1)
+                else if(i==0 || i==g.row-1 || j==0 || j==g.col-1)
                 {
                     g.ar[i-1][j].currentsize+=1;
                     g.ar[i-1][j].color=color;
@@ -339,7 +371,7 @@ class HelloEvent implements EventHandler <MouseEvent> {
                     func(i,j-1,color,player_no);
                     func(i,j+1,color,player_no);    
                 }
-                else if(j==0)
+                else if(i==0 || i==g.row-1 || j==0 || j==g.col-1)
                 {
                     g.ar[i+1][j].currentsize+=1;
                     g.ar[i+1][j].color=color;
