@@ -42,12 +42,12 @@ public class Settings_page extends Application {
         primaryStage.setTitle("Settings Page");	
         Text[] Player = new Text[8];
         HashMap<String,Integer> map = new HashMap<String,Integer>();
-        String [] c = new String[] {"Red", "Blue", "Green", "Black", "pink","violet","orange","yellow"};
+        String [] c = new String[] {"RED","BLUE" , "GREEN" , "BLACK" ,"PINK" , "VIOLET" ,"ORANGE","YELLOW"};
         ChoiceBox [] choice = new ChoiceBox [8];
         for(int i=0;i<8;i++)
         {
             choice[i] = new ChoiceBox();
-            choice[i].getItems().addAll("Red", "Blue", "Green", "Black", "pink","violet","orange","yellow");
+            choice[i].getItems().addAll("RED","BLUE" , "GREEN" , "BLACK" ,"PINK" , "VIOLET" ,"ORANGE","YELLOW");
             choice[i].getSelectionModel().select(i);
             Player[i] = new Text("Player "+(i+1));
             map.put(c[i],i);
