@@ -358,7 +358,8 @@ else{
        } 
 }
     }
-    public void transitionX(int i,int j,String col){
+    public void transitionYdown(int i,int j,String col){
+        System.out.println("down");
         PhongMaterial material = new PhongMaterial();
     if (col.equals("RED")) {
         material.setDiffuseColor(Color.RED);    
@@ -389,13 +390,15 @@ else{
     TranslateTransition translateTrans=new TranslateTransition();
     translateTrans.setDuration(Duration.millis(500));
     translateTrans.setNode(sph);
-    translateTrans.setByX(100);
+    translateTrans.setByY(50);
     translateTrans.setCycleCount(1);
-    translateTrans.setAutoReverse(true); 
+    translateTrans.setAutoReverse(false); 
     translateTrans.play();
-    r[i-1][j].add(sph,0,1);
+    r[i][j-1].getChildren().clear();
+    r[i][j-1].add(sph,0,1);
     }
-    public void transitionY(int i,int j,String col){
+    public void transitionYup(int i,int j,String col){
+         System.out.println("up");
         PhongMaterial material = new PhongMaterial();
     if (col.equals("RED")) {
         material.setDiffuseColor(Color.RED);    
@@ -426,10 +429,89 @@ else{
     TranslateTransition translateTrans=new TranslateTransition();
     translateTrans.setDuration(Duration.millis(500));
     translateTrans.setNode(sph);
-    translateTrans.setByX(100);
+    translateTrans.setByY(-50);
     translateTrans.setCycleCount(1);
-    translateTrans.setAutoReverse(true); 
+    translateTrans.setAutoReverse(false); 
     translateTrans.play();
+    r[i][j+1].getChildren().clear();
+    r[i][j+1].add(sph,0,1);
+    }
+    public void transitionXleft(int i,int j,String col){
+         System.out.println("left");
+        PhongMaterial material = new PhongMaterial();
+    if (col.equals("RED")) {
+        material.setDiffuseColor(Color.RED);    
+    }
+    else if (col.equals("BLUE")) {
+        material.setDiffuseColor(Color.BLUE);    
+    }
+    else if (col.equals("GREEN")) {
+        material.setDiffuseColor(Color.GREEN);    
+    }
+    else if (col.equals("BLACK")) {
+        material.setDiffuseColor(Color.BLACK);    
+    }
+    else if (col.equals("PINK")) {
+        material.setDiffuseColor(Color.PINK);    
+    }
+    else if (col.equals("VIOLET")) {
+      material.setDiffuseColor(Color.VIOLET);    
+    }
+    else if (col.equals("ORANGE")) {
+    material.setDiffuseColor(Color.ORANGE);    
+    }
+    else{
+        material.setDiffuseColor(Color.YELLOW);    
+    }
+    Sphere sph=new Sphere();
+    sph.setMaterial(material);
+    TranslateTransition translateTrans=new TranslateTransition();
+    translateTrans.setDuration(Duration.millis(500));
+    translateTrans.setNode(sph);
+    translateTrans.setByX(50);
+    translateTrans.setCycleCount(1);
+    translateTrans.setAutoReverse(false); 
+    translateTrans.play();
+    r[i+1][j].getChildren().clear();
+    r[i+1][j].add(sph,0,1);
+    }
+    public void transitionXright(int i,int j,String col){
+         System.out.println("right");
+        PhongMaterial material = new PhongMaterial();
+    if (col.equals("RED")) {
+        material.setDiffuseColor(Color.RED);    
+    }
+    else if (col.equals("BLUE")) {
+        material.setDiffuseColor(Color.BLUE);    
+    }
+    else if (col.equals("GREEN")) {
+        material.setDiffuseColor(Color.GREEN);    
+    }
+    else if (col.equals("BLACK")) {
+        material.setDiffuseColor(Color.BLACK);    
+    }
+    else if (col.equals("PINK")) {
+        material.setDiffuseColor(Color.PINK);    
+    }
+    else if (col.equals("VIOLET")) {
+      material.setDiffuseColor(Color.VIOLET);    
+    }
+    else if (col.equals("ORANGE")) {
+    material.setDiffuseColor(Color.ORANGE);    
+    }
+    else{
+        material.setDiffuseColor(Color.YELLOW);    
+    }
+    Sphere sph=new Sphere();
+    sph.setMaterial(material);
+    TranslateTransition translateTrans=new TranslateTransition();
+    translateTrans.setDuration(Duration.millis(500));
+    translateTrans.setNode(sph);
+    translateTrans.setByX(50);
+    translateTrans.setCycleCount(1);
+    translateTrans.setAutoReverse(false); 
+    translateTrans.play();
+    r[i-1][j].getChildren().clear();
     r[i-1][j].add(sph,0,1);
     }
     public void insert(int i,int j)
@@ -489,11 +571,12 @@ else{
                     g.ar[i+1][j].currentsize+=1;
                     g.ar[i+1][j].color=color;
                     g.ar[i+1][j].player = player_no;
-                    transitionX(i+1,j,g.ar[i+1][j].color);
+                    transitionXright(i+1,j,g.ar[i+1][j].color);
                     insertball(i+1,j,g.ar[i+1][j].color);
                     g.ar[i][j+1].currentsize+=1;
                     g.ar[i][j+1].color=color;
                     g.ar[i][j+1].player = player_no;
+                    transitionYdown(i,j+1,g.ar[i][j+1].color);
                     insertball(i,j+1,g.ar[i][j+1].color);
                     func(i+1,j,color,player_no);
                     func(i,j+1,color,player_no);
@@ -503,11 +586,12 @@ else{
                     g.ar[i+1][j].currentsize+=1;
                     g.ar[i+1][j].color=color;
                     g.ar[i+1][j].player = player_no;
-                    transitionX(i+1,j,g.ar[i+1][j].color);
+                    transitionXright(i+1,j,g.ar[i+1][j].color);
                     insertball(i+1,j,g.ar[i+1][j].color);
                     g.ar[i][j-1].currentsize+=1;
                     g.ar[i][j-1].color=color;
                     g.ar[i][j-1].player = player_no;
+                    transitionYup(i,j-1,g.ar[i][j-1].color);
                     insertball(i,j-1,g.ar[i][j-1].color);
                     func(i+1,j,color,player_no);
                     func(i,j-1,color,player_no);
@@ -517,10 +601,12 @@ else{
                     g.ar[i-1][j].currentsize+=1;
                     g.ar[i-1][j].color=color;
                     g.ar[i-1][j].player = player_no;
+                    transitionXleft(i-1,j,g.ar[i-1][j].color);
                     insertball(i-1,j,g.ar[i-1][j].color);
                     g.ar[i][j+1].currentsize+=1;
                     g.ar[i][j+1].color=color;
                     g.ar[i][j+1].player = player_no;
+                    transitionYdown(i,j+1,g.ar[i][j+1].color);
                     insertball(i,j+1,g.ar[i][j+1].color);
                     func(i-1,j,color,player_no);
                     func(i,j+1,color,player_no);
@@ -531,10 +617,12 @@ else{
                     g.ar[i-1][j].currentsize+=1;
                     g.ar[i-1][j].color=color;
                     g.ar[i-1][j].player = player_no;
+                    transitionXleft(i-1,j,g.ar[i-1][j].color);
                     insertball(i-1,j,g.ar[i-1][j].color);
                     g.ar[i][j-1].currentsize+=1;
                     g.ar[i][j-1].color=color;
                     g.ar[i][j-1].player = player_no;
+                    transitionYup(i,j-1,g.ar[i][j-1].color);
                     insertball(i,j-1,g.ar[i][j-1].color);
                     func(i-1,j,color,player_no);
                     func(i,j-1,color,player_no);
@@ -548,14 +636,17 @@ else{
                     g.ar[i+1][j].currentsize+=1;
                     g.ar[i+1][j].color=color;
                     g.ar[i+1][j].player = player_no;
+                    transitionXright(i+1,j,g.ar[i+1][j].color);
                     insertball(i+1,j,g.ar[i+1][j].color);
                     g.ar[i][j-1].currentsize+=1;
                     g.ar[i][j-1].color=color;
                     g.ar[i][j-1].player = player_no;
+                    transitionYup(i,j-1,g.ar[i][j-1].color);
                     insertball(i,j-1,g.ar[i][j-1].color);
                     g.ar[i][j+1].currentsize+=1;
                     g.ar[i][j+1].color=color;
                     g.ar[i][j+1].player = player_no;
+                    transitionYdown(i,j+1,g.ar[i][j+1].color);
                     insertball(i,j+1,g.ar[i][j+1].color);
                     func(i+1,j,color,player_no);
                     func(i,j-1,color,player_no);
@@ -566,14 +657,17 @@ else{
                     g.ar[i-1][j].currentsize+=1;
                     g.ar[i-1][j].color=color;
                     g.ar[i-1][j].player = player_no;
+                    transitionXleft(i-1,j,g.ar[i-1][j].color);
                     insertball(i-1,j,g.ar[i-1][j].color);
                     g.ar[i][j-1].currentsize+=1;
                     g.ar[i][j-1].color=color;
                     g.ar[i][j-1].player = player_no;
+                    transitionYup(i,j-1,g.ar[i][j-1].color);
                     insertball(i,j-1,g.ar[i][j-1].color);
                     g.ar[i][j+1].currentsize+=1;
                     g.ar[i][j+1].color=color;
                     g.ar[i][j+1].player = player_no;
+                    transitionYdown(i,j+1,g.ar[i][j+1].color);
                     insertball(i,j+1,g.ar[i][j+1].color);
                     func(i-1,j,color,player_no);
                     func(i,j-1,color,player_no);
@@ -584,14 +678,17 @@ else{
                     g.ar[i+1][j].currentsize+=1;
                     g.ar[i+1][j].color=color;
                     g.ar[i+1][j].player = player_no;
+                    transitionXright(i+1,j,g.ar[i+1][j].color);
                     insertball(i+1,j,g.ar[i+1][j].color);
                     g.ar[i-1][j].currentsize+=1;
                     g.ar[i-1][j].color=color;
                     g.ar[i-1][j].player = player_no;
+                    transitionXleft(i-1,j,g.ar[i-1][j].color);
                     insertball(i-1,j,g.ar[i-1][j].color);
                     g.ar[i][j+1].currentsize+=1;
                     g.ar[i][j+1].color=color;
                     g.ar[i][j+1].player = player_no;
+                    transitionYdown(i,j+1,g.ar[i][j+1].color);
                     insertball(i,j+1,g.ar[i][j+1].color);
                     func(i+1,j,color,player_no);
                     func(i-1,j,color,player_no);
@@ -602,14 +699,17 @@ else{
                     g.ar[i+1][j].currentsize+=1;
                     g.ar[i+1][j].color=color;
                     g.ar[i+1][j].player = player_no;
+                    transitionXright(i+1,j,g.ar[i+1][j].color);
                     insertball(i+1,j,g.ar[i+1][j].color);
                     g.ar[i-1][j].currentsize+=1;
                     g.ar[i-1][j].color=color;
                     g.ar[i-1][j].player = player_no;
+                    transitionXleft(i-1,j,g.ar[i-1][j].color);
                     insertball(i-1,j,g.ar[i-1][j].color);
                     g.ar[i][j-1].currentsize+=1;
                     g.ar[i][j-1].color=color;
                     g.ar[i][j-1].player = player_no;
+                    transitionYup(i,j-1,g.ar[i][j-1].color);
                     insertball(i,j-1,g.ar[i][j-1].color);
                     func(i+1,j,color,player_no);
                     func(i-1,j,color,player_no);
@@ -622,18 +722,22 @@ else{
                 g.ar[i+1][j].currentsize+=1;
                 g.ar[i+1][j].color=color;
                 g.ar[i+1][j].player = player_no;
+                transitionXright(i+1,j,g.ar[i+1][j].color);
                 insertball(i+1,j,g.ar[i+1][j].color);
                 g.ar[i-1][j].currentsize+=1;
                 g.ar[i-1][j].color=color;
                 g.ar[i-1][j].player = player_no;
+                transitionXleft(i-1,j,g.ar[i-1][j].color);
                 insertball(i-1,j,g.ar[i-1][j].color);
                 g.ar[i][j-1].currentsize+=1;
                 g.ar[i][j-1].color=color;
                 g.ar[i][j-1].player = player_no;
+                transitionYup(i,j-1,g.ar[i][j-1].color);
                 insertball(i,j-1,g.ar[i][j-1].color);
                 g.ar[i][j+1].currentsize+=1;
                 g.ar[i][j+1].color=color;
                 g.ar[i][j+1].player = player_no;
+                transitionYdown(i,j+1,g.ar[i][j+1].color);
                 insertball(i,j+1,g.ar[i][j+1].color);
                 func(i+1,j,color,player_no);
                 func(i-1,j,color,player_no);
