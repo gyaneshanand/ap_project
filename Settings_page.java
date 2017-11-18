@@ -1,11 +1,4 @@
-/*
-Settings page: page that changes the color of orb of each player
-it also has a back button which will return the user to the main page
- */
-//suyash singh
-//2016105
-//Aman Roy
-//2016011
+
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -28,6 +21,17 @@ import javafx.scene.control.Alert.AlertType;
 import java.io.*;
 
 
+/**
+*<h1>Settings page </h1>
+*<p> 
+*page that changes the color of orb of each player
+*it also has a back button which will return the user to the main page 
+* @author Aman Roy (2016011), Suyash Singh(2016105)
+* @version 1.0
+* @since 2017-10-20
+*/
+
+
 
 public class Settings_page extends Application implements Serializable {
     
@@ -39,9 +43,15 @@ public class Settings_page extends Application implements Serializable {
         this.m = m;
         this.color = new String[]{"RED","BLUE" , "GREEN" , "BLACK" ,"PINK" , "VIOLET" ,"ORANGE","YELLOW"};
     }
-
+    /**
+   * This method is creating the setting page and contains all the GUI components
+   *including the functionality of each button and other components
+   *@param primaryStage is the only parameter.
+   *
+   */ 
     @Override
     public void start(Stage primaryStage) {
+
         primaryStage.setTitle("Settings Page");	
         Text[] Player = new Text[8];
         HashMap<String,Integer> map = new HashMap<String,Integer>();
@@ -57,15 +67,19 @@ public class Settings_page extends Application implements Serializable {
         }
         Button mainpage=new Button("BACK");
         mainpage.setOnMouseClicked(new EventHandler<MouseEvent>(){
+   
             public void handle (MouseEvent event)
+   
             {
                 m.start(primaryStage);
             }
         });
         Button save=new Button("SAVE");
         save.setOnMouseClicked(new EventHandler<MouseEvent>(){
+     
             public void handle (MouseEvent event)
             {
+
                 ar = new boolean[8];
                 boolean temp = true;
                 for(int i=0;i<8;i++)
@@ -117,7 +131,11 @@ public class Settings_page extends Application implements Serializable {
         primaryStage.show();
     }
 
-   
+   /**
+   * This is the main method launching the start method
+   *@param args Unused.
+   *
+   */ 
    public static void main(String[] args) {
         launch(args);
     }

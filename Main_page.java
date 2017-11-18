@@ -1,11 +1,3 @@
-/*
-Main page: page where number of players, size of grid can be decided
- */
-
-//suyash singh
-//2016105
-//Aman Roy
-//2016011
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -28,13 +20,29 @@ import javafx.stage.Stage;
 import javafx.scene.control.*; 
 import javafx.scene.input.MouseEvent;
 import java.io.*;
-
+/**
+*<h1>Main page </h1>
+*<p> 
+*This is the main page of the game where user gets to decide the grid of the game
+*and the number of players that are going to play the game.
+*The start button redirects to the game page where the game actually happens   
+*and the settings button redirects to the setting page.
+* @author Aman Roy (2016011), Suyash Singh(2016105)
+* @version 1.0
+* @since 2017-10-20
+ */
 public class Main_page extends Application implements Serializable {
 	int row , col;
 	Game_page2 game;
     Settings_page s;
     int num_players;
     static Main_page m ;
+     /**
+   * This method is creating the Main page and contains all the GUI components
+   *including the functionality of each button and other components
+   *@param primaryStage is the only parameter.
+   *
+   */ 
     @Override
     public void start(Stage primaryStage) {
         primaryStage.setTitle("Chain Reaction");	
@@ -111,7 +119,11 @@ public class Main_page extends Application implements Serializable {
         primaryStage.show();
     }
 
-   
+    /**
+   * This is the main method launching the start method
+   *@param args Unused.
+   *
+   */ 
     public static void main(String[] args) {
     	m = new Main_page();
         m.s = new Settings_page(m);

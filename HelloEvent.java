@@ -37,7 +37,17 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.control.TextField;
 import java.io.Serializable;
-
+/**
+*<h1>HelloEvent</h1>
+*<p> 
+*This is the main page of the game where user gets to decide the grid of the game
+*and the number of players that are going to play the game.
+*The start button redirects to the game page where the game actually happens   
+*and the settings button redirects to the setting page.
+* @author Aman Roy (2016011), Suyash Singh(2016105)
+* @version 1.0
+* @since 2017-10-20
+ */
 public class HelloEvent implements EventHandler <MouseEvent> , Serializable {  
     GridPane[][] r;
     Game_page2 g;

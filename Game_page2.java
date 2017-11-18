@@ -1,11 +1,3 @@
-/*
-Game page: the page where game is going on, the grid is 15X10
- */
-
-//suyash singh
-//2016105
-//Aman Roy
-//2016011
 import javafx.scene.Node;
 import javafx.animation.Timeline;
 import javafx.animation.TranslateTransition; 
@@ -46,7 +38,19 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.control.TextField;
 import java.io.Serializable;
 import java.util.*;
-  
+  /**
+*<h1>Game page </h1>
+*<p> 
+*This is the game page of the game where user is going to play the game
+*this page has 3 functionality namely UNDO, BACK and RESTART
+*Undo button takes the state of the game to the previous state   
+*Back button takes the player back to the main page from the game page
+*Restart starts the game from the start and clearing the orbs from the previous game
+* @author Aman Roy (2016011), Suyash Singh(2016105)
+* @version 1.0
+* @since 2017-10-20
+*/
+
   class Player
   {
     String color;
@@ -71,7 +75,19 @@ public class Game_page2 extends Application implements Serializable {
     boolean visited[];
     ArrayList <Player> pl;
     int counter;  
-    //static Game_page2 g;
+    /**
+   * This is the constructor of the game page which initializes the game page 
+   *@param row This is the First parameter to the constructor of game page 
+   *representing the number of rows in the grid
+   *@param col This is the Second parameter to the constructor of game page 
+   *representing the number of columns in the grid
+   *@param p This is the third parameter to the constructor of game page 
+   *representing the number of players in the game
+   *@param m This is the fourth parameter to the constructor of game page 
+   *which has an instance of the mainpage 
+   *@param color This is the fifth parameter to the constructor of game page 
+   *representing the color array of the players in the order set up in settings page
+   */ 
     public Game_page2(int row , int col , int p , Main_page m , String[] color)
     {
         this.row = row;
@@ -94,6 +110,12 @@ public class Game_page2 extends Application implements Serializable {
             pl.add(new Player(color[i] , i+1));
         }
     }
+    /**
+   * This method is setting up the grid of the size RowXCol
+   *@param size1 is the number of rows required.
+   *@param size2 is the number of columns required.
+   *
+   */
     public void setup(int size1 , int size2)
     {
         row = size1;
@@ -120,6 +142,14 @@ public class Game_page2 extends Application implements Serializable {
         }
         count=1;
     }
+    /**
+   * This method is initialising each node/cell of the grid
+   *@param i is the row number.
+   *@param j is the column number.
+   *@param max is the number of maximum orbs that each cell can have.
+   *@param t is the type of the orb.
+   *
+   */
     public void helper(int i , int j,int max , String t)
     {
         count+=1;
@@ -132,6 +162,12 @@ public class Game_page2 extends Application implements Serializable {
             ar[i][j] = new node(max , t ,"" ,0 );
         }
     }
+    /**
+   * This method is creating the Game page and contains all the GUI components
+   *including the functionality of each button and other components
+   *@param primaryStage is the only parameter.
+   *
+   */ 
     @Override
     public void start(Stage primaryStage) {
         primaryStage.setTitle("Game Page");	
@@ -230,7 +266,10 @@ public class Game_page2 extends Application implements Serializable {
         primaryStage.setScene(scene);
         primaryStage.show();
     }
-
+    /**
+   * This method is making a copy of the gamepage type object
+   *@param g is the object of the Game_page which is to be copied
+   */ 
     public void makecopy(Game_page2 g)
     {
         System.out.println(g);
@@ -258,7 +297,11 @@ public class Game_page2 extends Application implements Serializable {
         System.out.println(this.prev.count+ "3");
         
     }
-    
+    /**
+   * This method is printing the game status on the console to check the backend 
+   *side of the game.
+   *
+   */ 
     public void print()
     {
         for(int i=0;i<this.row;i++)
@@ -270,6 +313,14 @@ public class Game_page2 extends Application implements Serializable {
             System.out.println();
         }
     }
+    /**
+   * This method is creating the ball in a node/cell at position i,j
+   *@param i is the row number
+   *@param j is the column number
+   *@param col is the color of the ball
+   *@param r is the gridpane in which the ball is to be blended
+   *
+   */ 
     public void insertball(int i,int j,String col,GridPane r[][]){
     PhongMaterial material = new PhongMaterial();
     if (col.equals("RED")) {
@@ -425,6 +476,7 @@ else{
        else{
          r[i][j].getChildren().clear();
        } 
+        
 }
     }
     /*public static void main(String[] args) {
