@@ -37,7 +37,7 @@ public class Main_page extends Application implements Serializable {
     Settings_page s;
     int num_players;
     static Main_page m ;
-     /**
+    /**
    * This method is creating the Main page and contains all the GUI components
    *including the functionality of each button and other components
    *@param primaryStage is the only parameter.
@@ -48,8 +48,7 @@ public class Main_page extends Application implements Serializable {
         primaryStage.setTitle("Chain Reaction");	
         Text playernum = new Text("Number of Players : ");
         ChoiceBox playerchoiceBox = new ChoiceBox();
-        playerchoiceBox.getItems().addAll(2,3,4,5,6,7,8);
-        
+        playerchoiceBox.getItems().addAll(2,3,4,5,6,7,8);        
         playerchoiceBox.getSelectionModel().select(0);
         System.out.println(playerchoiceBox.getValue());
         Text Gridsize = new Text("Size of the grid: ");
@@ -81,7 +80,6 @@ public class Main_page extends Application implements Serializable {
         		System.out.println(row + " " + col + " " + n);
         		game = new Game_page2(row , col , n , m , m.s.color);
         		game.start(primaryStage);
-        	//	Game_page g = new Game_page(n , this.row , this.col);
         	}
         });
         Button resume=new Button("RESUME");

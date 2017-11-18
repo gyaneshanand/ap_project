@@ -1,4 +1,3 @@
-
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -19,8 +18,6 @@ import java.util.*;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import java.io.*;
-
-
 /**
 *<h1>Settings page </h1>
 *<p> 
@@ -30,9 +27,6 @@ import java.io.*;
 * @version 1.0
 * @since 2017-10-20
 */
-
-
-
 public class Settings_page extends Application implements Serializable {
     
     boolean ar[];
@@ -125,8 +119,6 @@ public class Settings_page extends Application implements Serializable {
         root.add(save,1,8);
         root.setAlignment(Pos.CENTER);
         Scene scene = new Scene(root);
-        //System.out.println(colorchoiceBox8.getSelectionModel().getSelectedItem());
-        
         primaryStage.setScene(scene);
         primaryStage.show();
     }

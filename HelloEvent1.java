@@ -37,77 +37,54 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.control.TextField;
 import java.io.Serializable;
-/**
-*<h1>HelloEvent</h1>
-*<p> 
-*This is the main page of the game where user gets to decide the grid of the game
-*and the number of players that are going to play the game.
-*The start button redirects to the game page where the game actually happens   
-*and the settings button redirects to the setting page.
-* @author Aman Roy (2016011), Suyash Singh(2016105)
-* @version 1.0
-* @since 2017-10-20
- */
+
 public class HelloEvent implements EventHandler <MouseEvent> , Serializable {  
     GridPane[][] r;
     Game_page2 g;
-    GridPane root;
-
+   	GridPane root;
     HelloEvent(Game_page2 g,GridPane[][] st,GridPane root)
     {
         this.g = g;
         this.r=st;
         this.root=root;
+        //System.out.println(g.ar[0][0]);
     }
 
-   /**
-   * This method is keeping two copies of the game page to implement the UNDO function
-   *@param g1 is the instance of Gamepage which is to be saved
-   *@param k is a switch parameter which controls the copying in the previous object or the current object
-   *
-   */ 
+   
     public void makecopy(Game_page2 g1 ,int k)
     {
-        if(g1!=null)
-        {
-            Game_page2 temp = new Game_page2(g1.row , g1.col , g1.player_numbers , g1.m , g1.color);
-            temp.counter = g1.counter;
-            temp.setup(temp.row , temp.col);
-            for(int i=0;i<temp.row;i++)
-            {
-                for(int j=0;j<temp.col;j++)
-                {
-                    temp.ar[i][j].currentsize = g1.ar[i][j].currentsize; 
-                    temp.ar[i][j].maxsize = g1.ar[i][j].maxsize;
-                    temp.ar[i][j].type = g1.ar[i][j].type;
-                    temp.ar[i][j].color = g1.ar[i][j].color;
-                    temp.ar[i][j].player = g1.ar[i][j].player;
-                }
-            }
-            if(k==1)
-            {
-                g.prev = temp;
-                g.prev.counter = g1.counter;
-            }
-            else
-            {
-                g.cur = temp;
-                g.cur.counter = g1.counter;
-            }
-        }
-        
+    	//System.out.println(g);
+    	if(g1!=null)
+    	{
+    		Game_page2 temp = new Game_page2(g1.row , g1.col , g1.player_numbers , g1.m , g1.color);
+	    	temp.count = g1.count;
+	    	temp.setup(temp.row , temp.col);
+	    	for(int i=0;i<temp.row;i++)
+	    	{
+	    		for(int j=0;j<temp.col;j++)
+	    		{
+	    			temp.ar[i][j].currentsize = g1.ar[i][j].currentsize; 
+	    			temp.ar[i][j].maxsize = g1.ar[i][j].maxsize;
+	    			temp.ar[i][j].type = g1.ar[i][j].type;
+	    			temp.ar[i][j].color = g1.ar[i][j].color;
+	    			temp.ar[i][j].player = g1.ar[i][j].player;
+	    		}
+	    	}
+	    	if(k==1)
+	    	{
+	    		g.prev = temp;
+	    		g.prev.count = g1.count;
+	    	}
+	    	else
+	    	{
+	    		g.cur = temp;
+	    		g.cur.count = g1.count;
+	    	}
+    	}
+    	
     }
-/**
-   * This method is creating the ball in a node/cell at position i,j
-   *@param i is the row number
-   *@param j is the column number
-   *@param col is the color of the ball
-   *@param r is the gridpane in which the ball is to be blended
-   *
-   */
     public void insertball(int i,int j,String col){
     PhongMaterial material = new PhongMaterial();
-   // System.out.println(1000);
     if (col.equals("RED")) {
         material.setDiffuseColor(Color.RED);    
     }
@@ -157,14 +134,12 @@ public class HelloEvent implements EventHandler <MouseEvent> , Serializable {
 
 }
 else if (i==0 || i==g.row-1 || j==0 || j==g.col-1) {
-   // System.out.println("fuck" );
     TranslateTransition translateTransition1=new TranslateTransition();
     TranslateTransition translateTransition2=new TranslateTransition();
     Sphere s1=null;
     Sphere s2=null;
     
     if (g.ar[i][j].currentsize==1) {
-       // System.out.println("fuckyou" );
         r[i][j].getChildren().clear();
         s1=new Sphere(7);
         s1.setMaterial(material);
@@ -264,115 +239,50 @@ else{
          r[i][j].getChildren().clear();
        } 
 }
-}
-/**
-   * This method is checking the node/cell number and accordingly inserting the ball
-   *@param i is the row number
-   *@param j is the column number
-   *
-   */
+    }
     public void insert(int i,int j)
     {
-        Player p = g.pl.get(g.counter);
+        int temp;
+        if(g.count%g.player_numbers==0)
+        {
+            temp = g.player_numbers;
+        }
+        else
+        {
+            temp = g.count%g.player_numbers;
+        }
         if(g.ar[i][j].player==0)
         {
-            System.out.println(-1);
-            g.ar[i][j].player = p.player_number;
-            g.ar[i][j].color = g.color[p.index];
-            g.ar[i][j].currentsize+=1;
-            g.counter = (g.counter+1)%g.player_numbers;
+            //System.out.println(g.ar[i][j].player);
             g.count+=1;
-            insertball(i,j,p.color);
+            g.ar[i][j].player = temp;
+            g.ar[i][j].color = g.color[temp-1];
+            g.ar[i][j].currentsize+=1;
+            insertball(i,j,g.ar[i][j].color);
         }
-        else if(g.ar[i][j].player==p.player_number)
+        else if(g.ar[i][j].player==temp)
         {
-            g.ar[i][j].currentsize+=1;
+            //System.out.println(-1);
             g.count+=1;
-            g.counter = (g.counter+1)%g.player_numbers;
-            insertball(i,j,p.color);
+            g.ar[i][j].currentsize+=1;
+            insertball(i,j,g.ar[i][j].color);
             if(g.ar[i][j].currentsize >= g.ar[i][j].maxsize)
             {
                 System.out.println(1000);
-                func(i,j,p.color,p.player_number);
+                func(i,j,g.ar[i][j].color,temp);
             }
         }
         makecopy(g,2);
-        if(g.count>=g.player_numbers)
-        {    
-            checkwinner();
-        }
+       // System.out.println(-1000);
+       // System.out.println(g.count);
         return;
     }
-    /**
-   * This method is checking the winner after each move
-   *
-   */
-    public void checkwinner()
-    {
-        if(g.player_numbers==1)
-        {
-            System.out.println(g.pl.get(g.counter).player_number + " is winner");
-            return;
-        }
-        else{
-            int i=0;
-        while(i<g.player_numbers)
-        {
-            System.out.println(i);
-            System.out.println(g.counter);
-            int temp=0;
-            for(int j=0;j<g.row;j++)
-            {
-                for(int k=0;k<g.col;k++)
-                {
-                    if(g.ar[j][k].player== (g.pl.get(i).player_number))
-                    {
-                        temp=1;
-                        break;
-                    }
-                }
-                if(temp==1)
-                {
-                    break;
-                }
-            }
-                if(temp==0)
-                {
-                    System.out.println("hi");
-                    System.out.println(g.pl.get(i).player_number);
-                    g.pl.remove(i);
-                    g.player_numbers-=1;
-                    if(g.counter > i)
-                    {
-                        g.counter-=1;
-                    }
-                    else if(g.counter >= g.player_numbers)
-                    {
-                        g.counter = 0;
-                    }
-                    i-=1;
-                }
-                i+=1;
-                if(g.player_numbers==1)
-                {
-                    System.out.println(g.pl.get(g.counter).player_number + " is winner");
-                    System.exit(0);
-                } 
-                temp=0;      
-        }
-    }}
-    /**
-   * This method is recursively checking the insertion of the ball at each and every move
-   *@param i is the row number
-   *@param j is the column number
-   *@param color is the color of the ball
-   *@param player_no is the player number whose turn is going on
-   *
-   */
+
     public void func(int i,int j,String color , int player_no)
     {
         if(g.ar[i][j].currentsize < g.ar[i][j].maxsize)
         {
+           // insertball(i,j,g.ar[i][j].color);
             return;
         }
         if(g.ar[i][j].currentsize >= g.ar[i][j].maxsize)
@@ -385,13 +295,16 @@ else{
             {
                 if(i==0 && j==0)
                 {
+                   // System.out.println(2000);
                     g.ar[i+1][j].currentsize+=1;
                     g.ar[i+1][j].color=color;
                     g.ar[i+1][j].player = player_no;
+                    //transitionXright(i+1,j,g.ar[i+1][j].color);
                     insertball(i+1,j,g.ar[i+1][j].color);
                     g.ar[i][j+1].currentsize+=1;
                     g.ar[i][j+1].color=color;
                     g.ar[i][j+1].player = player_no;
+                    //transitionYdown(i,j+1,g.ar[i][j+1].color);
                     insertball(i,j+1,g.ar[i][j+1].color);
                     func(i+1,j,color,player_no);
                     func(i,j+1,color,player_no);
@@ -401,11 +314,12 @@ else{
                     g.ar[i+1][j].currentsize+=1;
                     g.ar[i+1][j].color=color;
                     g.ar[i+1][j].player = player_no;
+                    //transitionXright(i+1,j,g.ar[i+1][j].color);
                     insertball(i+1,j,g.ar[i+1][j].color);
                     g.ar[i][j-1].currentsize+=1;
                     g.ar[i][j-1].color=color;
                     g.ar[i][j-1].player = player_no;
-                   
+                   // transitionYup(i,j-1,g.ar[i][j-1].color);
                     insertball(i,j-1,g.ar[i][j-1].color);
                     func(i+1,j,color,player_no);
                     func(i,j-1,color,player_no);
@@ -415,12 +329,12 @@ else{
                     g.ar[i-1][j].currentsize+=1;
                     g.ar[i-1][j].color=color;
                     g.ar[i-1][j].player = player_no;
-                   
+                    //transitionXleft(i-1,j,g.ar[i-1][j].color);
                     insertball(i-1,j,g.ar[i-1][j].color);
                     g.ar[i][j+1].currentsize+=1;
                     g.ar[i][j+1].color=color;
                     g.ar[i][j+1].player = player_no;
-                
+                   // transitionYdown(i,j+1,g.ar[i][j+1].color);
                     insertball(i,j+1,g.ar[i][j+1].color);
                     func(i-1,j,color,player_no);
                     func(i,j+1,color,player_no);
@@ -431,12 +345,13 @@ else{
                     g.ar[i-1][j].currentsize+=1;
                     g.ar[i-1][j].color=color;
                     g.ar[i-1][j].player = player_no;
-                 
+                    //transitionXleft(i-1,j,g.ar[i-1][j].color);
                     insertball(i-1,j,g.ar[i-1][j].color);
                     g.ar[i][j-1].currentsize+=1;
                     g.ar[i][j-1].color=color;
                     g.ar[i][j-1].player = player_no;
-                     insertball(i,j-1,g.ar[i][j-1].color);
+                  //  transitionYup(i,j-1,g.ar[i][j-1].color);
+                    insertball(i,j-1,g.ar[i][j-1].color);
                     func(i-1,j,color,player_no);
                     func(i,j-1,color,player_no);
                 }
@@ -449,17 +364,17 @@ else{
                     g.ar[i+1][j].currentsize+=1;
                     g.ar[i+1][j].color=color;
                     g.ar[i+1][j].player = player_no;
-              
+                   // transitionXright(i+1,j,g.ar[i+1][j].color);
                     insertball(i+1,j,g.ar[i+1][j].color);
                     g.ar[i][j-1].currentsize+=1;
                     g.ar[i][j-1].color=color;
                     g.ar[i][j-1].player = player_no;
-               
+                   // transitionYup(i,j-1,g.ar[i][j-1].color);
                     insertball(i,j-1,g.ar[i][j-1].color);
                     g.ar[i][j+1].currentsize+=1;
                     g.ar[i][j+1].color=color;
                     g.ar[i][j+1].player = player_no;
-                   
+                   // transitionYdown(i,j+1,g.ar[i][j+1].color);
                     insertball(i,j+1,g.ar[i][j+1].color);
                     func(i+1,j,color,player_no);
                     func(i,j-1,color,player_no);
@@ -470,17 +385,17 @@ else{
                     g.ar[i-1][j].currentsize+=1;
                     g.ar[i-1][j].color=color;
                     g.ar[i-1][j].player = player_no;
-            
+                   // transitionXleft(i-1,j,g.ar[i-1][j].color);
                     insertball(i-1,j,g.ar[i-1][j].color);
                     g.ar[i][j-1].currentsize+=1;
                     g.ar[i][j-1].color=color;
                     g.ar[i][j-1].player = player_no;
-                  
+                  //  transitionYup(i,j-1,g.ar[i][j-1].color);
                     insertball(i,j-1,g.ar[i][j-1].color);
                     g.ar[i][j+1].currentsize+=1;
                     g.ar[i][j+1].color=color;
                     g.ar[i][j+1].player = player_no;
-                 
+                  //  transitionYdown(i,j+1,g.ar[i][j+1].color);
                     insertball(i,j+1,g.ar[i][j+1].color);
                     func(i-1,j,color,player_no);
                     func(i,j-1,color,player_no);
@@ -491,17 +406,17 @@ else{
                     g.ar[i+1][j].currentsize+=1;
                     g.ar[i+1][j].color=color;
                     g.ar[i+1][j].player = player_no;
-              
+                 //   transitionXright(i+1,j,g.ar[i+1][j].color);
                     insertball(i+1,j,g.ar[i+1][j].color);
                     g.ar[i-1][j].currentsize+=1;
                     g.ar[i-1][j].color=color;
                     g.ar[i-1][j].player = player_no;
-                 
+                  //  transitionXleft(i-1,j,g.ar[i-1][j].color);
                     insertball(i-1,j,g.ar[i-1][j].color);
                     g.ar[i][j+1].currentsize+=1;
                     g.ar[i][j+1].color=color;
                     g.ar[i][j+1].player = player_no;
-                
+                 //   transitionYdown(i,j+1,g.ar[i][j+1].color);
                     insertball(i,j+1,g.ar[i][j+1].color);
                     func(i+1,j,color,player_no);
                     func(i-1,j,color,player_no);
@@ -512,17 +427,17 @@ else{
                     g.ar[i+1][j].currentsize+=1;
                     g.ar[i+1][j].color=color;
                     g.ar[i+1][j].player = player_no;
-                 
+                 //   transitionXright(i+1,j,g.ar[i+1][j].color);
                     insertball(i+1,j,g.ar[i+1][j].color);
                     g.ar[i-1][j].currentsize+=1;
                     g.ar[i-1][j].color=color;
                     g.ar[i-1][j].player = player_no;
-                 
+                 //   transitionXleft(i-1,j,g.ar[i-1][j].color);
                     insertball(i-1,j,g.ar[i-1][j].color);
                     g.ar[i][j-1].currentsize+=1;
                     g.ar[i][j-1].color=color;
                     g.ar[i][j-1].player = player_no;
-                
+                //    transitionYup(i,j-1,g.ar[i][j-1].color);
                     insertball(i,j-1,g.ar[i][j-1].color);
                     func(i+1,j,color,player_no);
                     func(i-1,j,color,player_no);
@@ -535,20 +450,22 @@ else{
                 g.ar[i+1][j].currentsize+=1;
                 g.ar[i+1][j].color=color;
                 g.ar[i+1][j].player = player_no;
-            
+              //  transitionXright(i+1,j,g.ar[i+1][j].color);
                 insertball(i+1,j,g.ar[i+1][j].color);
                 g.ar[i-1][j].currentsize+=1;
                 g.ar[i-1][j].color=color;
                 g.ar[i-1][j].player = player_no;
-            
+              //  transitionXleft(i-1,j,g.ar[i-1][j].color);
                 insertball(i-1,j,g.ar[i-1][j].color);
                 g.ar[i][j-1].currentsize+=1;
                 g.ar[i][j-1].color=color;
                 g.ar[i][j-1].player = player_no;
+              //  transitionYup(i,j-1,g.ar[i][j-1].color);
                 insertball(i,j-1,g.ar[i][j-1].color);
                 g.ar[i][j+1].currentsize+=1;
                 g.ar[i][j+1].color=color;
                 g.ar[i][j+1].player = player_no;
+              //  transitionYdown(i,j+1,g.ar[i][j+1].color);
                 insertball(i,j+1,g.ar[i][j+1].color);
                 func(i+1,j,color,player_no);
                 func(i-1,j,color,player_no);
@@ -557,11 +474,6 @@ else{
             }
         }
     }
-    /**
-   * This method is event listener to the event of mouseclicking
-   *@param event is just one parameter of handle function
-   *
-   */
     @Override 
     public void handle(MouseEvent event) { 
         Node source = (Node) event.getSource();
@@ -569,17 +481,14 @@ else{
         int y = GridPane.getColumnIndex(source);
         makecopy(g.cur,1);
         insert(x,y); 
+        //System.out.println(g.ar[x][y].player); 
         print();
-        System.out.println(g.counter + " 21");
-        System.out.println(g.cur.counter + " 31");
-          
+        //System.out.println(g.prev.count + " 11"); 
+        System.out.println(g.count + " 21");
+        System.out.println(g.cur.count + " 31");   
     }
- /**
-   * This method is printing the game status on the console to check the backend 
-   *side of the game.
-   *
-   */ 
-    
+
+
     public void print()
     {
         for(int i=0;i<g.row;i++)
